@@ -3,7 +3,6 @@ from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
 import os
-from db import db
 from datetime import timedelta
 from security import authenticate, identity as identity_function
 from resources.user import UserRegister
@@ -23,10 +22,6 @@ def main():
     app.config['JWT_AUTH_USERNAME_KEY'] = 'username'  # default username
     api = Api(app)
 
-    @app.before_first_request
-    def create_tables():
-        db.create_all()
-
     jwt = JWT(app, authenticate, identity_function)  # /auth
 
     api.add_resource(ItemList, '/items')
@@ -35,7 +30,6 @@ def main():
     api.add_resource(Store, '/store/<string:name>')
     api.add_resource(StoreList, '/stores')
 
-    db.init_app(app)
     app.run(port=5000, debug=True)
 
 
