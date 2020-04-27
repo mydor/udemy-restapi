@@ -10,27 +10,24 @@ from resources.item import ItemList, Item
 from resources.store import Store, StoreList
 
 
-def main():
-    os.environ['FLASK_ENV'] = 'development'
+os.environ['FLASK_ENV'] = 'development'
 
-    app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.secret_key = "rX2D6Iwn*9zfyf!K"
-    app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=7200)
-    app.config['JWT_AUTH_URL_RULE'] = '/login'  # default /auth
-    app.config['JWT_AUTH_USERNAME_KEY'] = 'username'  # default username
-    api = Api(app)
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = "rX2D6Iwn*9zfyf!K"
+app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=7200)
+app.config['JWT_AUTH_URL_RULE'] = '/login'  # default /auth
+app.config['JWT_AUTH_USERNAME_KEY'] = 'username'  # default username
+api = Api(app)
 
-    jwt = JWT(app, authenticate, identity_function)  # /auth
+jwt = JWT(app, authenticate, identity_function)  # /auth
 
-    api.add_resource(ItemList, '/items')
-    api.add_resource(Item, '/item/<string:name>')
-    api.add_resource(UserRegister, '/register')
-    api.add_resource(Store, '/store/<string:name>')
-    api.add_resource(StoreList, '/stores')
-
-    app.run(port=5000, debug=True)
+api.add_resource(ItemList, '/items')
+api.add_resource(Item, '/item/<string:name>')
+api.add_resource(UserRegister, '/register')
+api.add_resource(Store, '/store/<string:name>')
+api.add_resource(StoreList, '/stores')
 
 
 # This now requires a callback function
@@ -49,5 +46,6 @@ def main():
 #        'code': error.status_code
 #    }), error.status_code
 
+
 if __name__ == '__main__':
-    main()
+    app.run(port=5000, debug=True)
