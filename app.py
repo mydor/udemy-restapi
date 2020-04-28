@@ -13,7 +13,7 @@ from resources.store import Store, StoreList
 os.environ['FLASK_ENV'] = 'development'
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = "rX2D6Iwn*9zfyf!K"
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=7200)
