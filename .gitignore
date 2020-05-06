@@ -1,3 +1,6 @@
 __pycache__/
 .DS_Store
 *.py[co]
+.idea
+venv
+data.db
