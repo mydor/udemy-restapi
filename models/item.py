@@ -18,7 +18,12 @@ class ItemModel(db.Model):
         self.store_id = store_id
 
     def json(self):
-        return {'name': self.name, 'price': self.price, 'id': self.id, 'store_id': self.store_id}
+        return {
+            'name': self.name,
+            'price': self.price,
+            'id': self.id,
+            'store_id': self.store_id
+        }
 
     @staticmethod
     def _dict_factory(cursor, row):
@@ -30,6 +35,10 @@ class ItemModel(db.Model):
     @classmethod
     def find_by_name(cls, name):
         return cls.query.filter_by(name=name).first()
+
+    @classmethod
+    def find_all(cls):
+        return cls.query.all()
 
     def store_item(self):
         db.session.add(self)
